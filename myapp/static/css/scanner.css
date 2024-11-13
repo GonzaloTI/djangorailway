@@ -1,0 +1,142 @@
+ /* this is the start of internal CSS for styling the webpage. */
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* prevents horizontal scrolling */
+}
+/* this sets body and html elements to full width and height, removing any default margin or padding, and prevents horizontal scrolling. */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+nav.top-nav {
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-size: cover; /* Cover the entire area of the nav, adjust as needed */
+    width: 100vw;  /* Ensures it spans the full width of the viewport */
+    height: 10%;
+    margin: 0;  
+    padding: 0;  /* Adjust padding as necessary but start with 0 to diagnose the issue */
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;  
+    z-index: 1000;
+    
+}
+
+nav.top-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 10px; /* Space out links */
+    font-weight: 500; /* Make it bold */
+}
+
+nav.top-nav a:hover {
+    background-color: #444; /* Darker background on hover */
+}
+
+
+header {
+    padding-top: 10px;  /* top padding to push down the content */
+    padding-bottom: 20px;
+    width: 100%;
+    padding: 50px 20px 20px; /* Adjust top padding to push down under nav */
+   /* background-image: url('https://i.gifer.com/GYEI.gif'); */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #000;
+    color: white;
+    text-align: center;
+    margin-top: 60px;
+}
+
+main {
+    padding-top: 60px; /* Add space at the top */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000; /* Dark background for main area */
+    background-size: center;
+    color: white;
+}
+
+section {
+    width: 100%; /* Full width of its parent */
+    max-width: 600px; /* Maximum width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Space from top */
+}
+
+form {
+    width: 100%; /* Take full width of the section */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input, button {
+    width: 50%; /* Responsive width */
+    padding: 10px;
+    margin: 10px 0; /* Margin for top and bottom */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+
+@media (max-width: 768px) {
+header {
+    background-size: cover; /* or 100% auto */
+    padding: 20px 10px; /* Less padding on smaller screens */
+}
+
+}
+
+
+
+
+
+
+
+.alert-box {
+    padding: 20px; /* Adds space inside the box around the content */
+    background-color: #9c2744; /* Dark red background color for visibility and emphasis */
+    color: white; /* White text color for contrast against the dark background */
+    margin-bottom: 15px; /* Space below the alert box to separate it from other content */
+    align-items: center; /* Vertically centers content within the flex container (if flex display is used) */
+    justify-content: center; /* Horizontally centers content within the flex container (if flex display is used) */
+    position: fixed; /* Keeps the alert box in the same position relative to the viewport */
+    top: 20px; /* Distance from the top of the viewport */
+    right: 20px; /* Distance from the right of the viewport */
+    border-radius: 5px; /* Rounds the corners of the alert box */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Subtle shadow to help the alert box stand out */
+    z-index: 1000; /* Ensures the alert box appears above other content */
+}
+
+.alert-box .closebtn {
+    margin-left: 15px; /* Space to the left of the close button for separation from other content */
+    color: white; /* Color of the close button, matching the alert box text for consistency */
+    font-weight: bold; /* Makes the close button text bold */
+    float: right; /* Positions the close button on the right side of the alert box */
+    font-size: 22px; /* Larger font size for the close button to make it easily clickable */
+    line-height: 20px; /* Line height to control the text alignment within the button */
+    cursor: pointer; /* Changes the cursor to a pointer to indicate clickable element */
+    transition: 0.3s; /* Smooth transition for color changes */
+}
+
+.alert-box .closebtn:hover {
+    color: black; /* Changes the close button color to black on hover for visual feedback */
+}

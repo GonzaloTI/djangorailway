@@ -1,0 +1,102 @@
+     /* Base styles for body and html, setting up the font and layout defaults */
+    body, html {
+            font-family: Arial, sans-serif; /* Sets a clean, professional font */
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            margin: 0; /* No margin to remove browser default spacing */
+            padding: 0;  /* No padding to remove browser default spacing */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Overrides the earlier font for a more modern look */
+            margin: 0; 
+            padding: 0;
+            background-color: #000000;
+            color: #333;
+        }
+
+        nav.top-nav {
+            /* background-image: url('https://i.gifer.com/7Gt8.gif');  */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent the background image from repeating */
+            background-size: cover; /* Cover the entire area of the nav, adjust as needed */
+            width: 100vw;  /* Ensures it spans the full width of the viewport */
+            height: 10%; /* Takes up 10% of the viewport height */
+            margin: 0;  /* Resets any default margin */
+            padding: 0;  /* Adjust padding as necessary but start with 0 to diagnose the issue */
+            background-color: #000;
+            display: flex; /* Uses flexbox for layout */
+            justify-content: center; /* Centers items horizontally */
+            align-items: center; /* Centers items vertically */
+            position: fixed; /* Fixed at the top of the viewport */
+            top: 0;
+            left: 0;  /* Ensure it starts from the very left edge */
+            z-index: 1000;
+            
+        }
+
+        nav.top-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 10px; /* Space out links */
+            font-weight: 500; /* Make it bold */
+        }
+
+        nav.top-nav a:hover {
+            background-color: #444; /* Darker background on hover */
+        }
+
+        header, main, footer {
+            width: 70%;
+            margin: 0 auto; /* Centers the content and provides a margin */
+        }
+
+
+        header {
+            padding-top: 10px;  /* top padding to push down the content */
+            padding-bottom: 20px; /* Space at the bottom */
+            width: 100%;
+            padding: 50px 20px 20px; /* Adjust top padding to push down under nav */
+            background-position: center; 
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-color: #000; /* Background color */
+            color: white;
+            text-align: center; /* Center text alignment */
+            margin-top: 60px; /* Space above the header */
+        }
+
+        main {
+            padding-top: 60px; /* Add space at the top */
+            min-height: 100vh; /* Minimum height to fill the viewport */
+            display: flex; /* Flexbox for layout */
+            flex-direction: column;  /* Stack children vertically */
+            align-items: center; /* Center items horizontally */
+            background-color: #000; /* Dark background for main area */
+            background-size: center;
+            color: white;
+            line-height: 1.5; /* Increases line height for readability */
+
+        }
+
+        h1, h2 {
+            font-weight: normal; /* Avoids bold headings for a lighter appearance */
+        }
+
+        ul, ol {
+            padding-left: 20px; /* Indents lists for better structure */
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none; /* Removes underline from links */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Adds underline on hover for better interactivity */
+        }
+
+
+ 

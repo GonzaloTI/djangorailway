@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/scanner.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+</head>
+<body>
+    <header> 
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %} 
+
+        </nav>
+        <h1>Welcome, {{ username }}!</h1>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <h1>Scan here</h1>
+    </header>
+    <main>
+        <section>
+            <h2>URL Scan</h2>
+            <form id="url_scan_form" action="{% url 'url_scanner' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="url_input" id="url_input" placeholder="Enter website URL" required>
+                <button type="submit">Scan URL</button>
+            </form>
+            <div id="alert-box" style="display:none;">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p id="alert-content">Waiting for message...</p>
+            </div>
+        </section>
+    
+        <section>
+            <h2>Code Scan</h2>
+            <form method="post" action="{% url 'scanner' %}">
+                {% csrf_token %}
+                <label for="code_input">Enter Your Code :</label>
+                <textarea id="code_input" name="code_input" rows="10" cols="50"></textarea>
+                <button type="submit">Generate Scanner</button>
+            </form>
+            {% if vulnerability_message %}
+            <div class="alert-box" id="alert-box">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p>{{ vulnerability_message|safe }}</p>
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- Nueva sección para el escáner de puertos -->
+        <section>
+            <h2>Port Scan</h2>
+            <form id="port_scan_form" action="{% url 'port_scanner' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="hostname" id="hostname" placeholder="Enter hostname or IP address" required>
+                <button type="submit">Scan Ports</button>
+            </form>
+            <div id="port-alert-box" style="display:none;">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p id="port-alert-content">Waiting for message...</p>
+            </div>
+        </section>
+    </main>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#url_scan_form').submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                    
+                        var resultsText = formatResults(response.results);
+
+                        // Mostrar el mensaje y los resultados formateados
+                        showAlert(response.message + "\n" + resultsText, false);
+                    },
+                    error: function(xhr, status, error) {
+                        showAlert('Error occurred: ' + error, true);
+                    }
+                });
+            });
+
+            $('#port_scan_form').submit(function(event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        if (response.error) {
+                            showPortAlert(response.error, true);
+                        } else if (Object.keys(response).length === 0) {
+                            showPortAlert('No open ports found for the hostname.', true);
+                        } else {
+                            var message = 'Scan Results for ' + Object.keys(response)[0] + ':<br>';
+                            var openPorts = response[Object.keys(response)[0]].open_ports;
+            
+                            if (openPorts.length === 0) {
+                                message += 'No open ports found.';
+                            } else {
+                                openPorts.forEach(function(port) {
+                                    message += 'Port ' + port.port + ': ' + port.state + ' (' + port.service + ')<br>';
+                                });
+                            }
+                            showPortAlert(message, false);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        showPortAlert('Error occurred: ' + error, true);
+                    }
+                });
+            });
+
+            // Función para formatear los resultados de la respuesta
+            function formatResults(results) {
+                let formattedResults = '';
+
+                // Procesar resultados de XSS
+                if (results.XSS.length > 0) {
+                    formattedResults += 'XSS Vulnerabilities:\n';
+                    results.XSS.forEach(function(vuln, index) {
+                        formattedResults += `  ${index + 1}. Description: ${vuln.description}\n`;
+                        formattedResults += `     Severity: ${vuln.severity}\n`;
+                        formattedResults += `     Remediation: ${vuln.remediation}\n\n`;
+                    });
+                } else {
+                    formattedResults += 'No XSS vulnerabilities detected.\n';
+                }
+
+                // Procesar resultados de SQL Injection
+                if (results["SQL Injection"].length > 0) {
+                    formattedResults += 'SQL Injection Vulnerabilities:\n';
+                    results["SQL Injection"].forEach(function(vuln, index) {
+                        formattedResults += `  ${index + 1}. Description: ${vuln.description}\n`;
+                        formattedResults += `     Severity: ${vuln.severity}\n`;
+                        formattedResults += `     Remediation: ${vuln.remediation}\n\n`;
+                    });
+                } else {
+                    formattedResults += 'No SQL Injection vulnerabilities detected.\n';
+                }
+
+                return formattedResults;
+            }
+
+            // Función showAlert para mostrar el resultado en un elemento del DOM
+            function showAlert(message, isScanning) {
+                var alertBox = document.getElementById('alert-box');
+                alertBox.querySelector('#alert-content').innerHTML = message.replace(/\n/g, '<br>');  // Reemplaza saltos de línea por <br> para HTML
+                alertBox.style.display = 'block';
+                if (isScanning) {
+                    alertBox.style.backgroundColor = '#8B0000'; // Fondo rojo para error
+                } else {
+                    alertBox.style.backgroundColor = '#FF6347'; // Color más suave para no-error
+                }
+            }
+
+
+            function showPortAlert(message, isScanning) {
+                var portAlertBox = document.getElementById('port-alert-box');
+                portAlertBox.querySelector('#port-alert-content').innerHTML = message;
+                portAlertBox.style.display = 'block';
+                if (isScanning) {
+                    portAlertBox.style.backgroundColor = '#8B0000';
+                } else {
+                    portAlertBox.style.backgroundColor = '#FF6347';
+                }
+            }
+        });
+    </script>
+    {% include 'footer.html' %}
+
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% load static %}  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Sites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/scaned_sites.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            {% include 'navbar.html' %}
+        </nav>
+        <div class="welcome-message">
+            <h1>Welcome, {{ username }}!</h1>
+            <p>Here are the URLs you have scanned:</p>
+        </div>
+    </header>
+
+    <main>
+        <ul class="scanned-list">
+            {% for scan in scanned_urls %}
+                <li class="scanned-item">
+                    <span class="url">{{ scan.url }}</span> 
+                    <span class="scanned-date">Scanned on: {{ scan.scanned_on }}</span>
+                </li>
+            {% empty %}
+                <li class="no-scans">No scanned URLs found.</li>
+            {% endfor %}
+        </ul>
+        <div class="actions">
+            <a href="{% url 'scanner' %}" class="button">Scan New URL</a>
+            <a href="{% url 'home' %}" class="button">Home</a>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
+</body>
+</html>

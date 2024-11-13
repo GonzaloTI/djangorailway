@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Understanding and Preventing CSRF</title>
+        {% load static %}
+        <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <link rel="stylesheet" href="{% static 'css/csrf.css' %}" />
+</head>
+
+ 
+<body>
+    <header>
+            <!-- navigation bar that is fixed at the top of the page with links styled distinctly. -->
+            <nav class="top-nav">
+                {% include 'navbar.html' %} 
+
+
+        </nav>
+    <!-- contains the main navigation bar with links to various sections. -->
+    </header>
+    
+</head>
+<body>
+    <header>
+        <h1>CSRF (Cross-Site Request Forgery) </h1>
+    </header>
+    <main>
+        <section>
+            <h2>What is CSRF?</h2>
+            <p>
+            Cross-Site Request Forgery (CSRF) is a malicious exploit of a website where unauthorized commands are transmitted from a user that the web application trusts. Unlike Cross-Site Scripting (XSS), which exploits the trust a user has for a particular site, CSRF exploits the trust that a site has in a user's browser.
+            </p>
+        </section>
+
+        <section>
+            <h2>How CSRF Attacks Occur</h2>
+            <p>
+            CSRF attacks typically occur when a malicious website, email, blog, or program causes a user's web browser to perform an unwanted action on a trusted site for which the user is currently authenticated. For instance, a user might be tricked into submitting a form that changes their email address or password on another service.
+            </p>
+        </section>
+
+        <section>
+            <h2>Common CSRF Vulnerabilities</h2>
+            <ul>
+                <li><strong>Session Riding:</strong> An attacker might send a link via email or social media that contains malicious HTML or JavaScript code to the victim.</li>
+                <li><strong>Image Tags:</strong> CSRF can also be triggered through image tags that execute actions as soon as an image is loaded on a user's browser.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Preventing CSRF Attacks</h2>
+            <p>
+                The best ways to prevent CSRF attacks include using CSRF tokens that are unique to each user session and ensuring that requests are authenticated and validated effectively. Here are several strategies:
+            </p>
+            <ol>
+                <li><strong>Use CSRF Tokens:</strong> Nonce tokens are unique to each session and ensure that an incoming request is from a legitimate source.</li>
+                <li><strong>Double Submit Cookies:</strong> This method involves sending a random challenge token from the server to the client, which the client must return unchanged with the next request.</li>
+                <li><strong>Custom Request Headers:</strong> Implementing custom headers adds a layer of security where the server checks for non-standard HTTP headers, making unauthorized access more difficult.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Resources for Further Learning</h2>
+            <ul>
+                <li><a href="https://owasp.org/www-community/attacks/csrf">OWASP CSRF Overview</a></li>
+                <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html">OWASP CSRF Prevention Cheat Sheet</a></li>
+            </ul>
+        </section>
+    </main>
+    {% include 'footer.html' %}
+
+</body>
+</html>

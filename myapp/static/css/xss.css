@@ -1,0 +1,103 @@
+body, html {
+    font-family: Arial, sans-serif; /* Sets a clean, professional font */
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #333;
+
+}
+
+nav.top-nav {
+     background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    background-size: cover; /* Cover the entire area of the nav, adjust as needed */
+    width: 100vw;  /* Ensures it spans the full width of the viewport */
+    height: 10%;
+    margin: 0;  /* Resets any default margin */
+    padding: 0;  /* Adjust padding as necessary but start with 0 to diagnose the issue */
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;  /* Ensure it starts from the very left edge */
+    z-index: 1000;
+    
+}
+
+nav.top-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 10px; /* Space out links */
+    font-weight: 500; /* Make it bold */
+}
+
+nav.top-nav a:hover {
+    background-color: #444; /* Darker background on hover */
+}
+
+header, main, footer {
+    width: 70%;
+    margin: 0 auto; /* Centers the content and provides a margin */
+}
+
+
+header {
+    padding-top: 10px;  /* top padding to push down the content */
+    padding-bottom: 20px;
+    width: 100%;
+    padding: 50px 20px 20px; /* Adjust top padding to push down under nav */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #000;
+    color: white;
+    text-align: center;
+    margin-top: 60px;
+}
+
+main {
+    padding-top: 60px; /* Add space at the top */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000; /* Dark background for main area */
+    background-size: center;
+    color: white;
+    line-height: 1.5; /* Increases line height for readability */
+    text-align: left;
+
+
+}
+
+h1, h2 {
+    font-weight: normal; /* Avoids bold headings for a lighter appearance */
+}
+
+ul, ol {
+    padding-left: 20px; /* Indents lists for better structure */
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none; /* Removes underline from links */
+}
+
+a:hover {
+    text-decoration: underline; /* Adds underline on hover for better interactivity */
+}
+
+

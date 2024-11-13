@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KPI5
+    </title>
+       <!-- Bootstrap CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+       <!-- DataTables CSS -->
+       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+   
+   
+       <!-- JavaScript para Chart.js -->
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+       <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+  </head>
+
+    
+  <body>
+    <header>
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %} 
+
+        </nav>
+    </header>
+
+    <div class="content">
+            <div class="container mt-5">
+            <!-- div element to contain the main content of the page. -->
+            <h1>KPI5 Tests por Edades - genero </h1>
+            <!-- main heading of the content section. -->
+
+            <h1 class="text-center">Cantidad de Tests por Edad de Cliente</h1>
+
+            <div class="container">
+                <canvas id="testsPorEdadChart" width="400" height="200"></canvas>
+            </div>
+            <h1 class="text-center">Cantidad de Tests por Edad y Tipo</h1>
+
+            <div class="container">
+                <canvas id="testsPorEdadYTipoChart" width="400" height="200"></canvas>
+            </div>
+
+            <h1 class="text-center">Distribución de Tests por Género</h1>
+                <div class="container">
+                    <canvas id="testsPorGeneroChart" width="400" height="200"></canvas>
+                </div>
+
+            <h1 class="text-center">Top test Mas solicitados</h1>
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            
+            <h1 class="text-center">Top Tests Menos Solicitados</h1>
+            <div id="chartContainerTop" style="height: 370px; width: 100%;"></div>
+
+
+            </div>
+    </div>
+
+    {% include 'footer.html' %}
+  </body>
+
+  <script>
+    // Datos para el gráfico de cantidad de tests por edad
+    const labelsEdad = {{ datos_edad.labels|safe }};
+    const dataEdad = {{ datos_edad.data|safe }};
+
+    // Configuración del gráfico de barras para cantidad de tests por edad
+    const ctxEdad = document.getElementById('testsPorEdadChart').getContext('2d');
+    const testsPorEdadChart = new Chart(ctxEdad, {
+        type: 'bar',
+        data: {
+            labels: labelsEdad,
+            datasets: [{
+                label: 'Cantidad de Tests',
+                data: dataEdad,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Tests'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Edad de Cliente'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Cantidad de Tests por Edad de Cliente'
+                }
+            }
+        }
+    });
+
+
+// Datos para el gráfico de barras apiladas
+const labelsEdad2 = {{ datos_tests_por_edad.labels|safe }};
+const datasets = {{ datos_tests_por_edad.datasets|safe }};
+
+// Configuración del gráfico de barras apiladas
+const ctx = document.getElementById('testsPorEdadYTipoChart').getContext('2d');
+const testsPorEdadYTipoChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labelsEdad2,
+        datasets: datasets.map((dataset, index) => ({
+            ...dataset,
+            backgroundColor: `rgba(${index * 40}, 162, 235, 0.6)`,
+            borderColor: `rgba(${index * 40}, 162, 235, 1)`,
+            borderWidth: 1
+        }))
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Cantidad de Tests'
+                },
+                stacked: true  // Hacer las barras apiladas
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Edad'
+                },
+                stacked: true
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Cantidad de Tests por Edad y Tipo de Test'
+            }
+        }
+    }
+});
+
+
+  // Obtener los datos enviados desde Django
+  const dataPoints = {{ datos_tests_menos_usados|safe }};
+
+  // Configuración del gráfico
+  var chart = new CanvasJS.Chart("chartContainer", {
+    theme: "dark2",
+    animationEnabled: true,
+    exportEnabled: true,
+    title: {
+      text: "Top 5 Tests Mas Usados"
+    },
+    axisX: {
+      margin: 10,
+      labelPlacement: "inside",
+      tickPlacement: "inside"
+    },
+    axisY2: {
+      title: "Cantidad de Tests",
+      titleFontSize: 14,
+      includeZero: true
+    },
+    data: [{
+      type: "bar",
+      yValueFormatString: "#,###",
+      indexLabel: "{y}",
+      axisYType: "secondary",
+      dataPoints: dataPoints
+    }]
+  });
+  chart.render();
+
+
+   // Obtener los datos enviados desde Django para los tests más solicitados
+   const dataPointsTop = {{ datos_tests_mas_solicitados|safe }};
+
+   // Configuración del gráfico para los tests más solicitados
+   var chartTop = new CanvasJS.Chart("chartContainerTop", {
+     theme: "dark2",
+     animationEnabled: true,
+     exportEnabled: true,
+     title: {
+       text: "Top 5 Tests Menos Solicitados"
+     },
+     axisX: {
+       margin: 10,
+       labelPlacement: "inside",
+       tickPlacement: "inside"
+     },
+     axisY2: {
+       title: "Cantidad de Tests",
+       titleFontSize: 14,
+       includeZero: true
+     },
+     data: [{
+       type: "bar",
+       yValueFormatString: "#,###",
+       indexLabel: "{y}",
+       axisYType: "secondary",
+       dataPoints: dataPointsTop
+     }]
+   });
+   chartTop.render();
+
+ // Datos para el gráfico de tests por género
+ const labelsGenero = {{ datos_genero.labels|safe }};
+ const dataGenero = {{ datos_genero.data|safe }};
+
+ // Configuración del gráfico para tests por género
+ const ctxGenero = document.getElementById('testsPorGeneroChart').getContext('2d');
+ const testsPorGeneroChart = new Chart(ctxGenero, {
+     type: 'pie', // También puedes usar 'bar'
+     data: {
+         labels: labelsGenero,
+         datasets: [{
+             label: 'Cantidad de Tests',
+             data: dataGenero,
+             backgroundColor: [
+                 'rgba(255, 99, 132, 0.6)', // Color para el primer género
+                 'rgba(54, 162, 235, 0.6)'  // Color para el segundo género
+             ],
+             borderColor: [
+                 'rgba(255, 99, 132, 1)',
+                 'rgba(54, 162, 235, 1)'
+             ],
+             borderWidth: 1
+         }]
+     },
+     options: {
+         responsive: true,
+         plugins: {
+             legend: {
+                 position: 'top',
+             },
+             title: {
+                 display: true,
+                 text: 'Distribución de Tests por Género'
+             }
+         }
+     }
+ });
+
+</script>
+</html>

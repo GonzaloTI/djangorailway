@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Code Pulse</title>
+
+    <!-- I included the Font Awesome library for access to a wide range of icons, enhancing the visual design without additional graphics. -->
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/homes.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+</head>
+<body>
+    <header>
+        <div class="menu-btn"></div> <!-- Placeholder for menu button, potentially for a mobile responsive menu. -->
+        <nav>
+            <!-- Navigation section with list of links for site navigation. -->
+            <ul>
+                <li><a href="{% url 'login' %}">Login Inteligencia de Negocios</a></li> <!-- Navigation link to the 'Login' page. -->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main content area featuring a dynamic, animated background and a typewriter effect for text display. -->
+    <main class="pulse">
+        <div class="content active">
+            <h1>Bienvenido al Sistema de Inteligencia de negocios</h1> <!-- main heading displayed prominently. -->
+         
+        </div>
+    </main>
+    <!-- JavaScript for typewriter effect, dynamically displaying text in a styled paragraph. -->
+  
+
+    <!-- JavaScript for responsive navigation menu toggle. -->
+    <script>
+        const menuBtn = document.querySelector(".menu-btn");
+        const navigation = document.querySelector("nav");
+
+        menuBtn.addEventListener("click", () => {
+            menuBtn.classList.toggle("active"); // 'active' class on the menu button.
+            navigation.classList.toggle("active"); // 'active' class on the navigation, 
+        });
+    </script>
+    {% include 'footer.html' %}
+
+</body>
+</html>

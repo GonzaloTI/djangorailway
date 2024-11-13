@@ -1,0 +1,51 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <!--Stylesheet-->
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/login1.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+
+</head>
+
+<body>
+    
+<header>
+        <div class="menu-btn"></div>
+        <nav>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+          </ul>
+        </nav>
+      </header>
+
+    <!-- Main content area with login form -->
+    <main>
+            <div class="background">
+                <div class="shape"></div> <!-- shapes in the background -->
+                <div class="shape"></div>
+            </div>
+    
+            <div class="forms-container">
+                <form method="post">
+                    <h3>Login Inteligencia de Negocios</h3>  <!-- Form heading -->
+                    {% csrf_token %}  <!-- Security token for protecting against CSRF attacks -->
+                    <label for="username">Username</label>  <!-- Username field -->
+                    <input type="text" placeholder="Enter Username" id="username" name="username">
+                    <label for="password">Password</label>  <!-- Password field -->
+                    <input type="password" placeholder="Password" id="password" name="password">
+                    <button type="submit">Log In</button>  <!-- Submission button -->
+                    <a href="{% url 'register' %}">Create a account</a>  <!-- Link to registration page -->
+                </form>
+            </div>
+        </main>
+        {% include 'footer.html' %}
+
+    </body>
+    </html>

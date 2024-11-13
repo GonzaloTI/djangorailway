@@ -1,0 +1,45 @@
+/* Center the content on the page */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Style the headings */
+h1 {
+    font-size: 5rem;
+    color: #ff6f61;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+/* Add some basic styling to the body */
+body {
+    background-color: #fff;
+    color: #555;
+}
+
+/* Button styling */
+a.button {
+    padding: 10px 20px;
+    background-color: #ff6f61;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+}
+
+a.button:hover {
+    background-color: #ff3b2e;
+}

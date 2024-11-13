@@ -1,0 +1,85 @@
+<!--Author: Djena Siabdellah
+    Description: Provides detailed information on Cross-Site Scripting (XSS) attacks, 
+    including what XSS is, how it occurs, and prevention. 
+    This educational page aims to give info about XSS vulnerabilities.
+
+    References
+    https://www.w3schools.com/css/
+    https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
+    https://owasp.org/www-community/attacks/xss/
+    -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding and Preventing XSS Attacks</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/xss.css' %}" />
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+</head>
+
+ 
+<body>
+    <header>
+            <nav class="top-nav">
+                {% include 'navbar.html' %} 
+
+
+        </nav>
+    </head>
+    <body>
+        <header>
+            <h1>Cross-Site Scripting (XSS) Prevention</h1>
+        </header>
+        <main>
+                <section>
+                    <h2>What is XSS?</h2>
+                    <p>
+                        Cross-Site Scripting (XSS) is a security vulnerability that allows an attacker to inject malicious scripts into content that is delivered to other users. This content seems trustworthy to the browser, leading to potential data theft, session hijacking, and other malicious activities.
+                    </p>
+                </section>
+        
+                <section>
+                    <h2>How XSS Attacks Happen</h2>
+                    <p>
+                        XSS attacks occur when an application includes untrusted data in a web page without proper validation or escaping, enabling attackers to execute scripts in the victim's browser. These scripts can access any cookies, session tokens, or other sensitive information retained by the browser and used with that site.
+                    </p>
+                </section>
+        
+                <section>
+                    <h2>Types of XSS Attacks</h2>
+                    <ul>
+                        <li><strong>Stored XSS:</strong> The malicious script is stored on the target server through a database, message forum, visitor log, or other means.</li>
+                        <li><strong>Reflected XSS:</strong> The script is included in a request made to the server (like in a URL or form parameter) and reflected back to the user.</li>
+                        <li><strong>DOM-based XSS:</strong> The vulnerability exists in client-side code rather than server-side code and is triggered when the page’s DOM is manipulated.</li>
+                    </ul>
+                </section>
+        
+                <section>
+                    <h2>Preventing XSS Attacks</h2>
+                    <p>
+                        Preventing XSS requires validating or sanitizing user input, and escaping user data on output. Here are some effective strategies:
+                    </p>
+                    <ol>
+                        <li><strong>Escaping:</strong> Ensure that you escape all user data based on the context in which it is placed in an HTML document. For instance, escape different data in HTML content, JavaScript, CSS, and URLs.</li>
+                        <li><strong>Validating Input:</strong> Validate inputs to ensure they conform to expected formats, using whitelisting as a primary method of validation.</li>
+                        <li><strong>Using Secure Headers:</strong> Implement security headers like <code>Content-Security-Policy</code> that can help mitigate some of the risks associated with XSS.</li>
+                        <li><strong>Sanitizing:</strong> Use libraries designed to sanitize input, removing unwanted data that could potentially form part of a script.</li>
+                    </ol>
+                </section>
+        
+                <section>
+                    <h2>Resources for Further Learning</h2>
+                    <ul>
+                        <li><a href="https://owasp.org/www-community/attacks/xss/">OWASP XSS Overview</a></li>
+                        <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html">OWASP XSS Prevention Cheat Sheet</a></li>
+                    </ul>
+                </section>
+            </main>
+            {% include 'footer.html' %} 
+                       </body>
+        </html>

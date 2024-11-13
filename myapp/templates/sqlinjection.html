@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding and Preventing SQL Injection</title>
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/sqlinjection.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+</head>
+
+
+<body>
+    <header>
+            <nav class="top-nav">
+                {% include 'navbar.html' %} 
+
+
+        </nav>
+    </header>
+    <header>
+            <!-- Page heading -->
+            <h1>SQL Injection Prevention</h1>
+        </header>
+        <main>
+            <section>
+                <!-- Section describing SQL Injection -->
+                <h2>What is SQL Injection?</h2>
+                <p>
+                    SQL Injection (SQLi) is a common attack vector that exploits vulnerabilities in an application's software
+                    by injecting malicious SQL statements into input fields for execution (e.g., data fields). This can allow
+                    attackers to manipulate or steal data from an organization's SQL databases.
+                </p>
+            </section>
+    
+            <section>
+                <!-- Section on how SQL Injection attacks occur -->
+                <h2>How SQL Injection Attacks Occur</h2>
+                <p>
+                    SQLi occurs when an attacker is able to insert a series of SQL statements into a 'query' that are then executed
+                    by a web application's database server. This often happens through unsanitized input fields where user inputs
+                    are not properly checked or escaped.
+                </p>
+            </section>
+    
+            <section>
+                <!-- Section on types of SQL Injection attacks -->
+                <h2>Types of SQL Injection Attacks</h2>
+                <ul>
+                    <li><strong>In-band SQLi:</strong> The most straightforward kind of attack, where the attacker uses the same communication channel to inject SQL code and gather results.</li>
+                    <li><strong>Inferential SQLi:</strong> Also known as Blind SQLi, this type of attack asks the database true or false questions and determines the answer based on the application's response.</li>
+                    <li><strong>Out-of-band SQLi:</strong> Data is transmitted over a protocol other than the one used to manage the database, such as HTTP.</li>
+                </ul>
+            </section>
+            <!-- Section on preventing SQL Injection attacks -->
+            <section>
+                <h2>Preventing SQL Injection Attacks</h2>
+                <p>
+                    Prevention strategies for SQL Injection primarily focus on proper input validation and query parameterization. Here are some effective practices:
+                </p>
+                <ol>
+                    <li><strong>Use Prepared Statements:</strong> With parameterized queries, it's impossible for an attacker to alter the intent of a query, even if SQL commands are inserted by an attacker.</li>
+                    <li><strong>Apply Whitelisting:</strong> Instead of rejecting bad patterns, identify and allow only necessary inputs to pass.</li>
+                    <li><strong>Employ Stored Procedures:</strong> While they are not completely immune, using them properly can help reduce SQL Injection risks.</li>
+                    <li><strong>Escape All User Inputs:</strong> Although not a primary defense, escaping inputs can help mitigate some forms of SQLi.</li>
+                </ol>
+            </section>
+            <!-- Section for further learning -->
+            <section>
+                <h2>Resources for Further Learning</h2>
+                <ul>
+                    <li><a href="https://owasp.org/www-community/attacks/SQL_Injection">OWASP SQL Injection Overview</a></li>
+                    <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html">OWASP SQL Injection Prevention Cheat Sheet</a></li>
+                </ul>
+            </section>
+        </main>
+        {% include 'footer.html' %}
+
+    </body>
+    </html>

@@ -1,0 +1,145 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+ body {
+    background-color: #080710; /* base color */
+     background-repeat: no-repeat; /* prevents the background image from repeating */
+    background-size: cover; /* background image covers the entire viewport */
+    font-family: 'Poppins', sans-serif; /* Modern, readable typeface */
+    color: #fff; /* White text color for high contrast against dark background */
+    padding: 8% 8%; /* padding around the content to prevent it from touching the edges */
+    display: flex; /* flex container */
+    flex-direction: column; /* stacks children vertically */
+    justify-content: flex-start; /* tart of the flex container vertically */
+    align-items: center; /* Centers horizontally within the container */
+}
+
+    header {
+    z-index: 999; /* header is on top of other content */
+    position: absolute; /* header to its nearest positioned ancestor */
+    top: 0;
+    left: 0;
+    width: 100%; /* full width to span across the screen */
+    display: flex; /* flexbox to center items and distribute space between */
+    justify-content: center; /* Centers navigation items horizontally */
+    align-items: center; /* navigation items vertically */
+    padding: 15px 20px; /* space around navigation items */
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background for subtle visibility */
+}
+
+/* styling for the navigation list */
+nav ul {
+    list-style: none; /* Removes bullet points from list items */
+    display: flex; /* Displays list in a horizontal row */
+    margin: 0; /* removes default margin */
+    padding: 0; /* removes default padding */
+}
+
+/* styles for navigation links */
+nav ul li a {
+    color: #fff; /* White color for text */
+    text-decoration: none; /* No underlines on links */
+    padding: 15px 35px; /* Spacing around text for easier clickability */
+    cursor: pointer; /* changes cursor to a pointer on hover to indicate clickable items */
+}
+
+/* Hover effect for navigation links */
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.4); /* Adds a light white background on hover for visual feedback */
+}
+
+/* Main container styling for centering form */
+main {
+    display: flex; /* establishes a flex container to center the child */
+    justify-content: center; /* horizontally centers the child */
+    align-items: center; /* Vertically centers the child */
+    height: 100vh; /* Full viewport height */
+}
+
+.background {
+    width: 430px;  /* width of the element to 430 pixels. */
+    height: 520px;  /* height of the element to 520 pixels. */
+    position: absolute;  /* nearest positioned ancestor (instead of just the viewport). */
+    transform: translate(-50%, -50%);  /* moves the element left by 50% of its width and up by 50% of its height to center it perfectly. */
+    left: 50%;  /* Positions center of the element at the middle of the container horizontally. */
+    top: 50%;  /* Positions center of the element at the middle of the container vertically. */
+}
+
+
+/* styling for the main form container with a blurred background */
+.forms-container {
+    display: flex; /* flexbox to layout form */
+    justify-content: space-around; /* space around items within the container */
+    margin-top: 30px; /* space above the form */
+}
+
+/* Specific form styling with a translucent backdrop and rounded corners */
+form {
+    height: 520px;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.13); /* Translucent white for form background */
+    border-radius: 10px; /* Rounded corners for aesthetics */
+    backdrop-filter: blur(10px); /* Blurs any content behind the form */
+    border: 2px solid rgba(255, 255, 255, 0.1); /* Subtle border around the form */
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6); /* Adds shadow for depth */
+    padding: 50px 20px; /* Padding inside the form for spacing */
+}
+
+/* Additional styling for form elements like labels, inputs, and buttons */
+form * {
+    color: #ffffff; /* White color for all text inside the form */
+}
+
+form h3 {
+    font-size: 18px; /* Size for section titles */
+    text-align: center; /* Centers title text */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+label,
+input {
+    display: block; /* each label and input takes the full width of its container */
+    margin-bottom: 15px; /* space below each input and label */
+}
+
+input {
+    height: 30px; /* fixed height for all inputs */
+    width: 100%; /* full width to fill the form */
+    background-color: rgba(255, 255, 255, 0.07); /* Slightly visible input background */
+    border-radius: 3px; /* rounded corners for inputs */
+    padding: 0 5px; /* padding inside inputs */
+    font-size: 14px; /* text size inside inputs */
+}
+
+::placeholder {
+    color: #e5e5e5; /* light grey for placeholder text, providing contrast */
+}
+
+button {
+    width: 100%; /* button spans the full width of its container */
+    background-color: #ffffff; /* solid white background for the button */
+    color: #080710; /* dark text color for the button */
+    padding: 10px 0; /* vertical padding for the button */
+    border-radius: 5px; /* rounded corners for the button */
+    cursor: pointer; /* indicates the button is clickable */
+}
+
+.social {
+    margin-top: 30px; /* Space above the social media links */
+    display: flex; /* Displays social media icons in a row */
+}
+
+.social div:hover {
+    background-color: rgba(255, 255, 255, 0.47); /* Light background on hover for social icons */
+}
+
+.social .fb {
+    margin-left: 25px; /* Space to the left of the Facebook icon */
+}
+
+.social i {
+    margin-right: 4px; /* Space to the right of each icon */
+}
+ 

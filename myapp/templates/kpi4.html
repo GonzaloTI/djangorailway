@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KPI4
+    </title>
+       <!-- Bootstrap CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+       <!-- DataTables CSS -->
+       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+   
+   
+       <!-- JavaScript para Chart.js -->
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+  </head>
+
+    
+  <body>
+    <header>
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %} 
+
+        </nav>
+    </header>
+
+    <div class="content">
+      <!-- div element to contain the main content of the page. -->
+      
+      <div class="container mt-5">
+        <h1 class="text-center mb-4">KPI4 Volumen de Pruebas </h1>
+        <!-- Lista de Nombres de los Campos -->
+
+        <h1>Volumen de Pruebas en los Últimos 7 Días</h1>
+
+        <canvas id="pruebasSemanalesChart" width="400" height="200"></canvas>
+
+        <h1>Volumen de Pruebas en los Últimos 7 Días por Tipo de Prueba</h1>
+
+    <canvas id="pruebasSemanalesChartbytest" width="400" height="200"></canvas>
+
+
+          <!-- Segunda fila: Porcentaje de Pruebas y Volumen de Pruebas Realizadas por Género -->
+          <div class="row mt-4">
+            <div class="col-md-6 text-center">
+                <h2>Porcentaje de Pruebas</h2>
+                <canvas id="pruebasPorcentajeChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6 text-center">
+                <h2>Volumen de Pruebas Realizadas por Género</h2>
+                <canvas id="pruebasPorGeneroChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+     
+    </div>
+    {% include 'footer.html' %}
+  </body>
+
+  <script>
+    // Datos para el gráfico de volumen de pruebas semanales
+    const labels = {{ datos.labels|safe }};
+    const dataValues = {{ datos.data|safe }};
+
+    // Configuración del gráfico de líneas para el volumen de pruebas
+    const ctx = document.getElementById('pruebasSemanalesChart').getContext('2d');
+    const pruebasSemanalesChart = new Chart(ctx, {
+        type: 'line',  // Cambia a 'bar' si prefieres un gráfico de barras
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cantidad de Pruebas',
+                data: dataValues,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad de Pruebas'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Días'
+                    }
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Volumen de Pruebas en los Últimos 7 Días'
+                }
+            }
+        }
+    });
+  // Utilidad para generar colores aleatorios
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// Datos para el gráfico de volumen de pruebas semanales
+const labels2 = {{ datos2.labels|safe }};
+const datasets = {{ datos2.datasets|safe }};
+
+// Configuración del gráfico de líneas para el volumen de pruebas
+const ctx3 = document.getElementById('pruebasSemanalesChartbytest').getContext('2d');
+const pruebasSemanalesChartbytest = new Chart(ctx3, {
+    type: 'line',
+    data: {
+        labels: labels2,
+        datasets: datasets.map((dataset, index) => {
+            const color = getRandomColor();  // Generar un color único para cada línea
+            return {
+                ...dataset,
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 2,
+                fill: false  // Sin relleno debajo de las líneas
+            };
+        })
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Cantidad de Pruebas'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Días'
+                }
+            }
+        },
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Volumen de Pruebas en los Últimos 7 Días por Tipo de Prueba'
+            }
+        }
+    }
+});
+  // Datos para el gráfico de porcentaje de pruebas por tipo
+  const labels3 = {{ datos_porcentaje.labels|safe }};
+  const dataValues3 = {{ datos_porcentaje.data|safe }};
+
+  // Generar colores aleatorios para cada sección del gráfico de torta
+  const backgroundColors = labels3.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`);
+  const borderColors = backgroundColors.map(color => color.replace(/0\.5\)$/, '1)'));
+
+  // Configuración del gráfico de torta
+  const ctx4 = document.getElementById('pruebasPorcentajeChart').getContext('2d');
+  const pruebasPorcentajeChart = new Chart(ctx4, {
+      type: 'pie',
+      data: {
+          labels: labels3,
+          datasets: [{
+              label: 'Porcentaje de Pruebas',
+              data: dataValues3,
+              backgroundColor: backgroundColors,
+              borderColor: borderColors,
+              borderWidth: 1
+          }]
+      },
+      options: {
+          responsive: true,
+          plugins: {
+              legend: {
+                  position: 'top',
+              },
+              title: {
+                  display: true,
+                  text: 'Porcentaje de Pruebas por Tipo'
+              }
+          }
+      }
+  });
+
+
+    // Datos para el gráfico de volumen de pruebas por género
+    const labelsGenero = ['Hombres', 'Mujeres'];
+    const dataGenero = [
+        {{ datos_genero.masculino }},
+        {{ datos_genero.femenino }}
+    ];
+
+    // Configuración del gráfico de doughnut
+    const ctxGenero = document.getElementById('pruebasPorGeneroChart').getContext('2d');
+    const pruebasPorGeneroChart = new Chart(ctxGenero, {
+        type: 'doughnut',
+        data: {
+            labels: labelsGenero,
+            datasets: [{
+                label: 'Cantidad de Pruebas',
+                data: dataGenero,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.6)',  // Azul para hombres
+                    'rgba(255, 99, 132, 0.6)'   // Rosado para mujeres
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Volumen de Pruebas Realizadas por Género'
+                }
+            }
+        }
+    });
+
+
+
+
+</script>
+</html>

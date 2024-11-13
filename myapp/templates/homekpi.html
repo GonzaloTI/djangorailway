@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI y su Importancia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    {% load static %}  
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+
+
+    <!-- JavaScript para Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+</head>
+<body>
+    <header> 
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %}
+        </nav>
+    </header>
+    
+    <main class="container mt-5">
+        <h1 class="text-center">¿Qué es un KPI y por qué es importante?</h1>
+        <p class="text-center mt-3">
+            Un KPI (Key Performance Indicator) es una métrica clave utilizada para evaluar el éxito de un área específica en una organización. 
+            Los KPIs ayudan a medir y monitorear el rendimiento en tiempo real, facilitando la toma de decisiones y permitiendo que las empresas 
+            ajusten sus estrategias para alcanzar los objetivos establecidos. 
+            Los KPIs son fundamentales para asegurar que los equipos y las empresas se mantengan alineados con las metas estratégicas.
+        </p>
+    </main>
+    
+    {% include 'footer.html' %}
+</body>
+</html>

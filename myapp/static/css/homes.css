@@ -1,0 +1,68 @@
+/* Fondo blanco y estilo general */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "Roboto", sans-serif;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #333; /* Texto en color oscuro */
+}
+
+/* Estilo del header */
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo semi-transparente */
+}
+
+/* Lista de navegación */
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo de los enlaces de navegación */
+nav ul li a {
+    color: #333;
+    text-decoration: none;
+    padding: 15px 35px;
+    cursor: pointer;
+}
+
+/* Hover en los enlaces de navegación */
+nav ul li a:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor principal */
+.pulse {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    padding: 8%;
+    background-color: transparent; /* Fondo transparente para ver el fondo blanco */
+}
+
+/* Contenido principal */
+.content {
+    width: 70%;
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 48px;
+    color: #333; /* Color de texto oscuro */
+}

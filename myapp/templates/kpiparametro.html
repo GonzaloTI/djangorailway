@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KPI5
+    </title>
+       <!-- Bootstrap CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+       <!-- DataTables CSS -->
+       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+   <!-- Bootstrap Bundle (incluye Popper.js necesario para el modal) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     <!-- JavaScript para Chart.js -->
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+       <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+  </head>
+
+    
+  <body>
+    <header>
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %} 
+
+        </nav>
+    </header>
+
+    <div class="content">
+            <div class="container mt-5">
+            <!-- div element to contain the main content of the page. -->
+            <h1>KPI parametro </h1>
+            <!-- main heading of the content section. -->
+
+            <h3>Campos Test</h3>
+            <div class="mb-3">
+                <select class="form-select" name="field_name" id="field_name" onchange="updateTextField()">
+                    {% for field_name in field_names %}
+                        <option value="{{ field_name }}">{{ field_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <!-- Campo de texto que muestra el valor seleccionado -->
+            <div class="mb-3">
+                <label for="selectedField" class="form-label">Campo Seleccionado</label>
+                <input type="text" id="selectedField" class="form-control" readonly>
+            </div>
+        
+    
+          <div class="container mt-5">
+            <h2>Generar KPI Personalizado</h2>
+            <form method="post" action="{% url 'kpi6' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="formula" class="form-label">Ingrese la fórmula</label>
+                    <input type="text" name="formula" id="formula" class="form-control" placeholder="Ejemplo: count(services) * personal">
+                </div>
+                <button type="submit" class="btn btn-primary">Calcular</button>
+            </form>
+                    <div class="container mt-5">
+                        <h2>Gráfico de {{ campo }}</h2>
+                        <canvas id="kpiChart"></canvas>
+                    </div>
+            
+            <canvas id="graficoKPI"></canvas>
+
+
+
+                        <!-- Botón para abrir el modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#consultaModal">
+                Hacer Consulta por tabla Persona
+            </button>
+
+
+                                    <!-- Modal -->
+                        <div class="modal fade" id="consultaModal" tabindex="-1" aria-labelledby="consultaModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="consultaModalLabel">Realizar Consulta</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form id="consultaForm" method="GET" action="{% url 'realizar_consulta' %}">
+                                        <div class="modal-body">
+                                            <!-- Seleccionar Campo -->
+                                            <h6 class="mb-3">Seleccionar Campo para Agrupar</h6>
+                                            <div class="mb-3">
+                                                <select class="form-select" name="field_name" id="field_name" required>
+                                                    {% for field_name in field_namespersona %}
+                                                        <option value="{{ field_name }}">{{ field_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <!-- Seleccionar Orden -->
+                                            <h6 class="mb-3">Ordenar</h6>
+                                            <div class="mb-3">
+                                                <select class="form-select" name="order" id="order" required>
+                                                    <option value="asc">Ascendente</option>
+                                                    <option value="desc">Descendente</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Seleccionar Operación -->
+                                            <h6 class="mb-3">Operación</h6>
+                                            <div class="mb-3">
+                                                <select class="form-select" name="operation" id="operation" required>
+                                                    <option value="sum">Suma</option>
+                                                    <option value="avg">Promedio</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Consultar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                 
+
+
+                <h1>Resultados para {{ field_name }}</h1>
+                <div class="container">
+                    <canvas id="consultaChart"></canvas>
+                </div>
+
+            </div>
+
+            
+    </div>
+
+    {% include 'footer.html' %}
+  </body>
+
+  <script>
+   
+    function updateTextField() {
+        const select = document.getElementById("field_name");
+        const selectedText = select.options[select.selectedIndex].text;
+        document.getElementById("selectedField").value = selectedText;
+    }
+
+
+    const valores = {{ valores|safe }};
+    const conteos = {{ conteos|safe }};
+
+    const ctx2 = document.getElementById('graficoKPI').getContext('2d');
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: valores,
+            datasets: [{
+                label: `Conteo de {{ campo }}`,
+                data: conteos,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    const datos = {{ datos|safe }};
+    const ctx = document.getElementById('consultaChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: datos.labels,
+            datasets: [{
+                label: 'Resultados',
+                data: datos.data,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Resultados de la Consulta'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+
+</script>
+</html>

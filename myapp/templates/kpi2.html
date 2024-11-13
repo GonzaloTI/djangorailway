@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KPI2
+    </title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+
+
+    <!-- JavaScript para Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  </head>
+
+    
+  <body>
+    <header>
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %} 
+
+        </nav>
+    </header>
+
+    <div class="content">
+          <div class="container mt-5">
+              <h1 class="text-center mb-4">KPI2 Productividad del personal</h1>
+            <!-- Lista de Nombres de los Campos -->
+          </div>
+      <!-- main heading of the content section. -->
+    </div>
+
+
+    <div class="container mt-5">
+
+         <!-- Tabla para mostrar los datos de los escaneos -->
+         <table id="scansTable" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Sexo</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Especialidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for persona in personals %}
+            <tr>
+                <td>{{ persona.nombre }}</td>
+                <td>{{ persona.apellidos }}</td>
+                <td>{{ persona.sexo }}</td>
+                <td>{{ persona.fnac }}</td>
+                <td>{{ persona.telefono }}</td>
+                <td>{{ persona.rol }}</td>
+                <td>{{ persona.especialidad }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No hay personas disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+
+      <h1>Cantidad de Tests Realizados por Personal</h1>
+
+      <canvas id="testsPorPersonalChart" width="400" height="200"></canvas>
+
+
+      <h1>Porcentaje de Tests Realizados por Personal</h1>
+
+      <canvas id="testsPorPersonalDoughnutChart" width="400" height="400"></canvas>
+
+
+      <h1>KPI de Productividad: Tiempo Promedio por Test</h1>
+
+      <!-- Canvas para el gráfico de Tiempo Promedio por Test -->
+      <canvas id="tiempoPromedioChart" width="400" height="200"></canvas>
+
+
+
+      <h1>Promedio de Calificación por Personal</h1>
+
+      <canvas id="calificacionPromedioChart" width="400" height="200"></canvas>
+
+
+    </div>
+
+    {% include 'footer.html' %}
+  </body>
+
+  <script>
+    // Obtener los datos enviados desde Django
+    const datos = {{ datos|safe }};  // Lista de diccionarios con nombre y cantidad de tests realizados
+
+    // Separar nombres y cantidad de tests en arrays para Chart.js
+    const nombres = datos.map(item => item.nombre);
+    const cantidadTestsRealizados = datos.map(item => item.cantidad_tests_realizados);
+
+    // Configuración del gráfico de barras
+    const ctx = document.getElementById('testsPorPersonalChart').getContext('2d');
+    const testsPorPersonalChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: nombres,  // Nombres de cada persona
+            datasets: [{
+                label: 'Cantidad de Tests Realizados',
+                data: cantidadTestsRealizados,  // Cantidad de tests realizados por cada persona
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+ // Obtener los datos enviados desde Django y almacenarlos en arrays
+ const datosporcentaje = {{ datosporcentaje|safe }};  // Lista de diccionarios con nombre y porcentaje de tests realizados
+
+ // Separar nombres y porcentajes en arrays para Chart.js
+ const nombres2 = datosporcentaje.map(item => item.nombre);
+ const porcentajes = datosporcentaje.map(item => item.porcentaje_tests);
+
+ // Configuración del gráfico de doughnut
+ const ctxx = document.getElementById('testsPorPersonalDoughnutChart').getContext('2d');
+ const testsPorPersonalDoughnutChart = new Chart(ctxx, {
+     type: 'doughnut',
+     data: {
+         labels: nombres2,  // Nombres de cada persona
+         datasets: [{
+             label: 'Porcentaje de Tests Realizados',
+             data: porcentajes,  // Porcentaje de tests realizados por cada persona
+             backgroundColor: [
+                 'rgba(255, 99, 132, 0.2)',
+                 'rgba(54, 162, 235, 0.2)',
+                 'rgba(255, 206, 86, 0.2)',
+                 'rgba(75, 192, 192, 0.2)',
+                 'rgba(153, 102, 255, 0.2)',
+                 'rgba(255, 159, 64, 0.2)'
+             ],
+             borderColor: [
+                 'rgba(255, 99, 132, 1)',
+                 'rgba(54, 162, 235, 1)',
+                 'rgba(255, 206, 86, 1)',
+                 'rgba(75, 192, 192, 1)',
+                 'rgba(153, 102, 255, 1)',
+                 'rgba(255, 159, 64, 1)'
+             ],
+             borderWidth: 1
+         }]
+     },
+     options: {
+         responsive: true,
+         plugins: {
+             legend: {
+                 position: 'top',
+             },
+             tooltip: {
+                 enabled: true,
+                 callbacks: {
+                     label: function(tooltipItem) {
+                         return `${nombres2[tooltipItem.dataIndex]}: ${porcentajes[tooltipItem.dataIndex].toFixed(2)}%`;
+                     }
+                 }
+             },
+             title: {
+                 display: true,
+                 text: 'Porcentaje de Tests Realizados por Personal'
+             }
+         }
+     }
+ });
+
+
+ // Obtener los datos enviados desde Django
+ const datos_tiempo_promedio = {{ datos_tiempo_promedio|safe }};  // Lista de diccionarios con nombre y tiempo promedio en días
+
+ // Separar nombres y tiempos promedio en arrays para Chart.js
+ const nombres3 = datos_tiempo_promedio.map(item => item.nombre);
+ const tiemposPromedio = datos_tiempo_promedio.map(item => item.tiempo_promedio_dias);
+
+ // Configuración del gráfico de barras
+ const ctx3 = document.getElementById('tiempoPromedioChart').getContext('2d');
+ const tiempoPromedioChart = new Chart(ctx3, {
+     type: 'bar',
+     data: {
+         labels: nombres3,  // Nombres de cada persona
+         datasets: [{
+             label: 'Tiempo Promedio por Test (días)',
+             data: tiemposPromedio,  // Tiempos promedio en días
+             backgroundColor: 'rgba(54, 162, 235, 0.2)',
+             borderColor: 'rgba(54, 162, 235, 1)',
+             borderWidth: 1
+         }]
+     },
+     options: {
+         scales: {
+             y: {
+                 beginAtZero: true
+             }
+         },
+         responsive: true,
+         plugins: {
+             legend: {
+                 position: 'top',
+             },
+             title: {
+                 display: true,
+                 text: 'Tiempo Promedio de Ejecución por Personal'
+             }
+         }
+     }
+ });
+
+  // Obtener los datos enviados desde Django
+        const datos4 = {{ datos_promedio_calificacion|safe }};  // Lista de diccionarios con nombre y promedio de calificación
+
+        // Separar nombres y calificaciones promedio en arrays para Chart.js
+        const nombres4 = datos4.map(item => item.nombre);
+        const calificacionesPromedio = datos4.map(item => item.promedio_calificacion);
+
+        // Configuración del gráfico de barras
+        const ctx4 = document.getElementById('calificacionPromedioChart').getContext('2d');
+        const calificacionPromedioChart = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: nombres4,  // Nombres de cada persona
+                datasets: [{
+                    label: 'Promedio de Calificación',
+                    data: calificacionesPromedio,  // Promedio de calificación de cada persona
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Promedio de Calificación por Personal'
+                    }
+                }
+            }
+        });
+
+
+</script>
+
+
+</html>

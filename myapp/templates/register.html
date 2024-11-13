@@ -1,0 +1,70 @@
+ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for Code Pulse</title>
+    {% load static %}  
+    <link rel="stylesheet" href="{% static '/css/register1.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <!-- Stylesheets -->
+  
+</head>
+<body>
+<header>
+    <div class="menu-btn"></div> <!-- Placeholder for responsive menu button -->
+    <nav>
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li> <!-- Navigation link to the 'Home' page -->
+      </ul>
+    </nav>
+</header>
+<main>
+  <div class="background">
+      <div class="shape"></div> <!-- Decorative shapes within the form container -->
+      <div class="shape"></div>
+  </div>
+    <div class="forms-container">
+        <form method="post" action="{% url 'register' %}">
+            <h3>Register Here</h3> <!-- Form header for registration -->
+            {% csrf_token %} <!-- Security token for Django forms to prevent CSRF attacks -->
+            {{ form.non_field_errors }}
+            <div class="form-group">
+                <label for="username">Username:</label> <!-- Username field -->
+                <input type="text" id="username" name="username" autocomplete="username" placeholder="Choose a username" required>
+                {{ form.username.errors }} <!-- Display errors related to username field -->
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label> <!-- Email field -->
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="Enter your email" required>
+                {{ form.email.errors }} <!-- Display errors related to email field -->
+            </div>
+            <div class="form-group">
+                <label for="password1">Password:</label> <!-- Password field -->
+                <input type="password" id="password1" name="password1" autocomplete="new-password" placeholder="Create a password" required>
+                {{ form.password1.errors }} <!-- Display errors related to password field -->
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password:</label> <!-- Password confirmation field -->
+                <input type="password" id="password2" name="password2" autocomplete="new-password" placeholder="Confirm your password" required>
+                {{ form.password2.errors }} <!-- Display errors related to password confirmation field -->
+            </div>
+            <button type="submit">Sign Up</button> <!-- Submission button -->
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </form>
+        <a href="{% url 'login' %}">Already have an account? Login</a> <!-- Link to the login page -->
+    </div>
+</main>
+{% include 'footer.html' %}
+
+</body>
+</html>

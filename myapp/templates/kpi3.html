@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KPI3
+    </title>
+       <!-- Bootstrap CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+       <!-- DataTables CSS -->
+       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+   
+   
+       <!-- JavaScript para Chart.js -->
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+  </head>
+
+    
+  <body>
+    <header>
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %} 
+
+        </nav>
+    </header>
+
+    <div class="content">
+      <div class="container mt-5">
+          <h1 class="text-center mb-4">KPI3 Tiempo de entrega de Resultados</h1>
+        <!-- Lista de Nombres de los Campos -->
+
+        <h1>Tiempo de Espera  por Prueba</h1>
+
+        <canvas id="tiempoEsperaPruebaChart" width="400" height="200"></canvas>
+
+        <h2>Cantidad de Pruebas Mensuales en el Año Actual</h2>
+        <canvas id="pruebasMensualesChart" width="400" height="200"></canvas>
+
+      </div>
+  <!-- main heading of the content section. -->
+</div>
+
+
+
+
+
+    {% include 'footer.html' %}
+  </body>
+
+
+  <script>
+    const datos_tiempo_espera = {{ datos_tiempo_espera|safe }};  // Lista de diccionarios con nombre de prueba y tiempo promedio de espera en días
+
+        // Separar nombres de pruebas y tiempos promedio en arrays para Chart.js
+        const nombres = datos_tiempo_espera.map(item => item.nombre);
+        const tiemposPromedio = datos_tiempo_espera.map(item => item.promedio_tiempo_espera_dias);
+
+        // Configuración del gráfico de barras
+        const ctx = document.getElementById('tiempoEsperaPruebaChart').getContext('2d');
+        const tiempoEsperaPruebaChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: nombres,  // Nombres de cada prueba
+                datasets: [{
+                    label: 'Tiempo de Espera Promedio (días)',
+                    data: tiemposPromedio,  // Tiempo promedio de espera en días
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Días'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Pruebas'
+                        }
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tiempo de Espera Promedio por Prueba'
+                    }
+                }
+            }
+        });
+  // Datos para el gráfico de Cantidad de Pruebas Mensuales
+  const labelsPruebasMensuales = {{ datos.labels|safe }};
+  const dataPruebasMensuales = {{ datos.data|safe }};
+
+  // Configuración del gráfico de líneas para la cantidad de pruebas mensuales
+  const ctxPruebasMensuales = document.getElementById('pruebasMensualesChart').getContext('2d');
+  const pruebasMensualesChart = new Chart(ctxPruebasMensuales, {
+      type: 'line',  // Cambiado a 'line' para el gráfico de líneas
+      data: {
+          labels: labelsPruebasMensuales,
+          datasets: [{
+              label: 'Cantidad de Pruebas',
+              data: dataPruebasMensuales,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 2,
+              fill: false  // Evita el relleno bajo la línea
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  title: {
+                      display: true,
+                      text: 'Cantidad de Pruebas'
+                  }
+              },
+              x: {
+                  title: {
+                      display: true,
+                      text: 'Meses'
+                  }
+              }
+          },
+          responsive: true,
+          plugins: {
+              legend: {
+                  position: 'top',
+              },
+              title: {
+                  display: true,
+                  text: 'Cantidad de Pruebas Mensuales en el Año Actual'
+              }
+          }
+      }
+  });
+
+
+</script>
+
+
+</html>

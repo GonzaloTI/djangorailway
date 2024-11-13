@@ -1,0 +1,98 @@
+    /* CSS Styles are embedded directly within the HTML in a style block. */
+    body, html {
+        font-family: Arial, sans-serif; /* default font for the entire page is set to Arial */
+        width: 100%; /* full width of the viewport. */
+        height: 100%; /* full height of the viewport. */
+        margin: 0; /* removes default margin around the body and html. */
+        padding: 0; /* removes default padding around the body and html. */
+        overflow-x: hidden; /* revents horizontal scrolling on the page. */
+        background-color: #000000; /* sets background color to black. */
+        color: #fff; /* sets the text color to white for high contrast. */
+    }
+
+    nav.top-nav {
+         background-position: center; /* center the background image */
+        background-repeat: no-repeat; /* prevent the background image from repeating */
+        background-size: cover; /* cover the entire area of the nav, adjust as needed */
+        width: 100vw;  /* ensures it spans the full width of the viewport */
+        height: 10%; /* sets the height of the navigation bar to 10% of the viewport height. */
+        margin: 0;  /* resets any default margin */
+        padding: 0;  /* adjust padding as necessary but start with 0 to diagnose the issue */
+        background-color: #000; /* fallback background color is black in case the image fails to load. */
+        display: flex; /* uses Flexbox for aligning children elements (links) horizontally. */
+        justify-content: center; /* centers children elements horizontally within the navigation. */
+        align-items: center; /* aligns children elements vertically within the navigation. */
+        position: fixed; /* makes the navigation bar fixed during scrolling. */
+        top: 0; /* positions the navigation bar at the top of the viewport. */
+        left: 0; /* aligns the navigation bar at the left edge of the viewport. */
+        z-index: 1000; /* ensures the navigation bar stays on top of other content. */
+        
+    }
+
+    nav.top-nav a {
+        color: white; /* text color for links within the navigation is white for visibility. */
+        text-decoration: none; /* no underline on the links to keep them clean and professional. */
+        padding: 10px 15px; /* padding around the links for better clickability and aesthetics. */
+        margin: 0 10px; /* margin around links to create space between them. */
+        font-weight: 500; /* slightly bolder font weight for better readability. */
+    }
+
+    nav.top-nav a:hover {
+        background-color: #444; /* changes the background color of links on hover for a visual effect. */
+    }
+
+    header, main, footer {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background: #000;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+
+    header {
+        padding-top: 10px;  /* adds padding to the top to push the header content down. */
+        padding-bottom: 20px; /* adds padding at the bottom for vertical spacing within the header. */
+        width: 100%; /* sets the width of the header to cover the full width of the viewport. */
+        padding: 50px 20px 20px; /* overrides previous padding settings. */
+        background-position: center; /* centers any background image set within the header. */
+        background-repeat: no-repeat; /* prevents the background image from repeating */
+        background-size: contain; /* ensures that the background image scales to fit the header without cropping. */
+        background-color: #000; /* sets the header background color to black, matching the theme. */
+        color: white; /* sets the text color to white for high contrast readability against the dark background. */
+        text-align: center; /* aligns the header text centrally for a balanced and harmonious presentation. */
+        margin-top: 60px; /* provides vertical space between the header and any elements directly above it. */
+    }
+
+    main {
+        padding-top: 60px; /* adds padding at the top to create a visual separation between the header and main content. */
+        min-height: 100vh; /* sets the minimum height of the main content area to the full height of the viewport*/
+        display: flex; /* enables Flexbox layout */
+        flex-direction: column; /* arranges the child elements in a vertical column. */
+        align-items: center; /* horizontally centers the child elements within the main container. */
+        background-color: #000; /* sets the background color of the main content area to black. */
+        background-size: center; /* ensures that any background image is centered within the main content area. */
+        color: white; /* text color set to white maintains legibility against the dark background. */
+        line-height: 1.5; /* increases the space between lines of text, enhancing readability. */
+    }
+
+    h1, h2 {
+        font-weight: normal; /* sets the font weight of headings to normal. */
+    }
+
+    ul, ol {
+        padding-left: 20px; /* adds padding to the left of unordered and ordered lists */
+    }
+
+    a {
+        color: #007BFF; /* sets the default color of links to a bright blue */
+        text-decoration: none; /* removes the default underline from links */
+    }
+
+    a:hover {
+        text-decoration: underline; /* restores the underline to links when hovered over */
+    }
+
+
+
+

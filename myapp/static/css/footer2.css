@@ -1,0 +1,35 @@
+/* Estilos generales del footer */
+.footer {
+    background-color: #253647;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    position: relative; /* Cambiado a 'relative' para que respete el flujo del contenido */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+    margin-top: 20px; /* Espaciado entre el contenido y el footer */
+}
+
+/* Asegurar que el contenido principal ocupe todo el espacio */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.content {
+    flex: 1; /* El contenido principal ocupa el espacio restante */
+}
+
+/* Estilos para el contenido del footer */
+.footer-content ul {
+    list-style-type: none; /* Quita los puntos de la lista */
+    padding: 0;
+    margin: 0; /* Evita márgenes innecesarios */
+}
+
+.footer-content li {
+    margin: 5px 0;
+}

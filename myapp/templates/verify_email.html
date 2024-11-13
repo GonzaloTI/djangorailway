@@ -1,0 +1,112 @@
+<!--Author: Djena Siabdellah
+    Description: This page is used for email verification as part of the registration process.
+    It asks users to enter a code sent to their email to verify their account. 
+
+    References
+    https://www.w3schools.com/html/html_forms.asp
+    https://www.w3schools.com/css/
+    -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}  
+
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <title>Verify Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            padding: 20px;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .info {
+            color: #31708f;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }
+
+        .error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        .success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: rgb(114, 85, 108);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #c093af;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Display any messages that were sent by the view -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <!-- Form for users to submit their verification code -->
+    <form method="post" action="{% url 'verify_email' %}">
+        {% csrf_token %}
+        <input type="text" name="code" placeholder="Verification Code" required>
+        <button type="submit">Verify Email</button>
+    </form>
+    {% include 'footer.html' %}
+
+</body>
+</html>
+

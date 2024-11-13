@@ -1,0 +1,46 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Fondo suave */
+    color: #fff;
+    min-height: 100vh; /* Asegura que el cuerpo cubra toda la altura de la ventana */
+    display: flex;
+    flex-direction: column; /* Para que el contenido principal y el footer se alineen verticalmente */
+}
+
+footer {
+    background-color: #2c3e50; /* Color de fondo oscuro */
+    color: #fff; /* Color de texto blanco */
+    text-align: center;
+    padding: 10px;
+    margin-top: auto; /* Empuja el footer al final */
+    width: 100%; /* Asegura que el footer cubra todo el ancho */
+    position: relative; /* Posicionamiento normal */
+}
+
+.scanned-list {
+    list-style-type: none; /* Quitar puntos de la lista */
+    padding: 0; /* Quitar padding */
+    margin: 20px; /* Margen */
+    flex-grow: 1; /* Hace que esta sección crezca y ocupe el espacio disponible */
+}
+
+.scanned-item {
+    background-color: #000; /* Fondo blanco para los elementos escaneados */
+    border: 1px solid #ddd; /* Borde ligero */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 15px; /* Espaciado interno */
+    margin: 10px 0; /* Margen entre elementos */
+    display: flex; /* Usar flexbox para alinear elementos */
+    justify-content: space-between; /* Espacio entre URL y fecha */
+}
+.actions > a{
+text-decoration: none;
+color: #fff;
+background-color: #2c3e50;
+margin: 20px  10px;
+padding: 10px  10px;
+border-radius: 10px;
+
+}

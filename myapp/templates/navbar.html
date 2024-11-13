@@ -1,0 +1,28 @@
+ <!-- navbar.html -->
+{% load static %}  
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+<nav class="navbar">
+    <div class="navbar-content">
+        <h1 class="navbar-title">Detección de Vulnerabilidades</h1>
+        <div class="navbar-toggle" id="navbar-toggle">
+            &#9776; <!-- Icono de menú -->
+        </div>
+        <ul class="navbar-menu" id="navbar-menu">
+            <li><a href="{% url 'signout' %}">Sign Out</a></li>
+            <li><a href="{% url 'xss_page' %}">Cross Site Scripting (XSS)</a></li>
+            <li><a href="{% url 'sql_injection_page' %}">SQL Injection</a></li>
+            <li><a href="{% url 'csrf_page' %}">Cross Site Request Forgery (CSRF)</a></li>
+            <li><a href="{% url 'scaned_sites' %}">Scanned Sites</a></li>
+            <li><a href="{% url 'scanner' %}">Scanner</a></li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    // Script para el toggle del menú en pantallas pequeñas
+    document.getElementById('navbar-toggle').addEventListener('click', function() {
+        var menu = document.getElementById('navbar-menu');
+        menu.classList.toggle('active');
+    });
+</script>

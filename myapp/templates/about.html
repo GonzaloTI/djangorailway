@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Our Website</title>
+     {% load static %}
+     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+     <link rel="stylesheet" href="{% static 'css/about.css' %}" />
+
+  </head>
+
+    
+  <body>
+    <header>
+      <nav>
+        <!-- navigation tag for providing navigation links. -->
+        <ul>
+          <li>
+            <a href="{% url 'home' %}">Home</a>
+          </li>
+          <li>
+            <a href="{% url 'register' %}">Get Started</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="content">
+      <!-- div element to contain the main content of the page. -->
+      <h1>Why Choose CodePulse?</h1>
+      <!-- main heading of the content section. -->
+      <p>By integrating CodePulse into your development and security protocols, you benefit from an advanced suite of analytical tools that not only identify vulnerabilities but also provide detailed reports on each. These reports include severity ratings and actionable recommendations for mitigation, helping ensure that your applications adhere to the highest standards of security. The user-friendly interface of CodePulse ensures that it is accessible to users with various levels of expertise, making it an indispensable tool for anyone looking to enhance their application's security.</p>
+
+      <h2>How CodePulse Works</h2>
+      <p>To get started with CodePulse, users simply need to register an account, enter the URL of the web application they wish to scan (Must be running locally), or add in a code snippit of your code (copy and paste) and initiate the scanning process. The system then performs an exhaustive search for vulnerabilities, presenting the results in an easy-to-understand report that details potential security flaws and how to address them.</p>
+
+      <h2>Our Mission and Vision</h2>
+      <p>The inception of CodePulse was motivated by a desire to democratize access to robust web security tools. Our goal is to equip individuals and organizations with the means to defend against increasingly sophisticated cyber threats. Looking ahead, we are committed to expanding the capabilities of CodePulse by incorporating real-time vulnerability monitoring and adding support for additional web frameworks.</p>
+
+      <h2>Contact and Support</h2>
+      <p>For any inquiries, support requests, or feedback, please feel free to reach out to us at suppor
+     proyetostito12@gmail.com We are dedicated to continually improving CodePulse and value your input highly.</p>
+    </div>
+    {% include 'footer.html' %}
+
+  </body>
+</html>
