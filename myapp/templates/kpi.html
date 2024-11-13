@@ -115,29 +115,18 @@
                   
                         <th>Nombre</th>
                         <th>Fecha</th>
-                        <th>Fecha de Entrega</th>
-                        <th>Estado</th>
-                        <th>Observaciones</th>
                         <th>Calificación</th>
-                        <th>Categoría</th>
-                        <th>Cliente</th>
-                        <th>Personal</th>
-                  
                    
                 </tr>
             </thead>
             <tbody>
                 {% for test in tests %}
                 <tr>
+                   
                     <td>{{ test.nombre }}</td>
                     <td>{{ test.fecha }}</td>
-                    <td>{{ test.fecha_entrega }}</td>
-                    <td>{{ test.estado }}</td>
-                    <td>{{ test.observaciones }}</td>
                     <td>{{ test.calificacion }}</td>
-                    <td>{{ test.categoria.nombre }}</td> <!-- Asume que la categoría tiene un nombre -->
-                    <td>{{ test.cliente.nombre }}</td> <!-- Asume que `username` es el campo de nombre en CustomUser -->
-                    <td>{{ test.personal.nombre }}</td> 
+
                 </tr>
                 {% empty %}
                 <tr>

@@ -128,7 +128,8 @@ def KIP1(request):
     categorias = [item['categoria__nombre'] for item in categoria_counts]
     cantidades = [item['cantidad'] for item in categoria_counts]
 
-    result = Test.objects.all()
+    result = Test.objects.values('nombre', 'fecha', 'calificacion')
+
     field_names = [field.name for field in Test._meta.fields]  # Obtiene los nombres de los campos
 
 
