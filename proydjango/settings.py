@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'web-production-7b18.up.railway.app',
-    'web-production-3654.up.railway.app'
+    'web-production-3654.up.railway.app',
+    '127.0.0.1',
+    '8080'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -137,6 +139,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# Ensures the session cookie is sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures cookies are only sent over HTTPS
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookies are only sent over HTTPS
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB, o ajusta según sea necesario
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

@@ -704,7 +704,11 @@ def cargar_tests(request):
         try:
             data = csv_file.read().decode("utf-8").splitlines()  # Decodificar el archivo
             reader = csv.DictReader(data)
-
+            # Cargar todas las categorías en caché
+            categorias = {categoria.id: categoria for categoria in Categoria.objects.all()}
+            personas_cache = {persona.id: persona for persona in Persona.objects.all()}
+            
+            
             tests = []
             resultados = []
             for row in reader:
@@ -733,7 +737,11 @@ def cargar_tests(request):
                 fecha_entrega = fecha_prueba + timedelta(days=dias_entrega)
 
                 # Buscar la categoría y las personas relacionadas
-                categoria = Categoria.objects.get(id=row["categoria_id"])
+                #categoria = Categoria.objects.get(id=row["categoria_id"])
+                categoria_id = int(row["categoria_id"])
+                categoria = categorias.get(categoria_id)
+                
+                '''
                 try:
                     cliente = Persona.objects.get(id=row["cliente_id"])
                 except Persona.DoesNotExist:
@@ -746,7 +754,26 @@ def cargar_tests(request):
                 except Persona.DoesNotExist:
                     personal_id = random.randint(1000, 2000)
                     personal = Persona(id=personal_id, nombre=f"Personal-{personal_id}") 
+                '''
+                 # Obtener cliente desde la caché o crear temporalmente con un ID aleatorio
+                cliente_id = int(row["cliente_id"])
+                try:
+                    cliente = personas_cache[cliente_id]
+                except KeyError:
+                    cliente_id = random.randint(1000, 3000)
+                    cliente = Persona(id=cliente_id, nombre=f"Cliente-{cliente_id}")  # Crear cliente temporal
+                    personas_cache[cliente_id] = cliente  # Agregar al caché temporalmente
 
+                # Obtener personal desde la caché o crear temporalmente con un ID aleatorio
+                personal_id = int(row["personal_id"])
+                try:
+                    personal = personas_cache[personal_id]
+                except KeyError:
+                    personal_id = random.randint(1000, 2000)
+                    personal = Persona(id=personal_id, nombre=f"Personal-{personal_id}")  # Crear personal temporal
+                    personas_cache[personal_id] = personal  # Agregar al caché temporalmente
+                
+                
                 # Crear la instancia del Test
                 test = Test(
                     nombre=row["nombre"],
@@ -760,7 +787,8 @@ def cargar_tests(request):
                     personal=personal,
                 )
                 # Imprimir datos del test para depuración
-                
+                #observaciones=row["observaciones"] if row["observaciones"] != "N/a" else None,
+                # Manejar el campo 'observaciones' con un valor predeterminado
                 #para crear los resultados, se toman el nombre y se generan resutlados leatorios por codigo
                 
                  # Generar el resultado del test
@@ -779,21 +807,11 @@ def cargar_tests(request):
                 resultados.append(resultado)
                 
                 
-                print(f"""
-                Test creado:
-                - Nombre: {test.nombre}
-                - Fecha: {test.fecha}
-                - Fecha Entrega: {test.fecha_entrega}
-                - Estado: {test.estado}
-                - Observaciones: {test.observaciones}
-                - Calificación: {test.calificacion}
-                - Categoría ID: {test.categoria.id}
-                - Cliente ID: {test.cliente.id}
-                - Personal ID: {test.personal.id}
-                """)
+               
 
                 tests.append(test)
                 print(f"Resultado creado: {resultado.__dict__}")
+                
 
             # Guardar todos los tests en la base de datos
             Test.objects.bulk_create(tests)
