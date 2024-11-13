@@ -1,1 +1,1 @@
-web: gunicorn codepulse.wsgi --bind 0.0.0.0:$PORT
+web: gunicorn myapp.wsgi --bind 0.0.0.0:$PORT
