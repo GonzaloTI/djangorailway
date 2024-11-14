@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KPI5
+    </title>
+       <!-- Bootstrap CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+       <!-- DataTables CSS -->
+       <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+   <!-- Bootstrap Bundle (incluye Popper.js necesario para el modal) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     <!-- JavaScript para Chart.js -->
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+       <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+  </head>
+
+    
+  <body>
+    <header>
+        <nav class="top-nav">
+            {% include 'navbarkpi.html' %} 
+
+        </nav>
+    </header>
+
+    <div class="content">
+            <div class="container mt-5">
+            <!-- div element to contain the main content of the page. -->
+            <h1> Consulta</h1>
+            <!-- main heading of the content section. -->
+
+    
+          <div class="container mt-5">
+            
+          
+            <form method="POST" action="{% url 'analitics' %}">
+              {% csrf_token %}
+              <label for="input_text">Ingrese el texto:</label>
+              <textarea id="input_text" name="input_text" rows="4" cols="50"></textarea><br><br>
+              <button type="submit">Analizar</button>
+          </form>
+      
+          <hr>
+          {% if result %}
+              <h2>Resultado:</h2>
+              <pre>{{ result }}</pre>
+          {% endif %}
+
+
+            </div>
+            <hr>
+            {% if result %}
+                <h2>Resultados de la consulta:</h2>
+                <!-- Mostrar los resultados en una tabla -->
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <!-- Mostrar los encabezados de columna si los datos tienen nombres -->
+                            {% for field in result.0 %}
+                                <th>{{ field }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in result %}
+                            <tr>
+                                {% for column in row %}
+                                    <td>{{ column }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay resultados para mostrar.</p>
+            {% endif %}
+    </div>
+
+    {% include 'footer.html' %}
+  </body>
+
+  <script>
+   
+  
+
+
+
+</script>
+</html>

@@ -40,7 +40,8 @@ from django.db.models import Count, Avg, F, ExpressionWrapper, fields
 from django.db.models.functions import TruncMonth,TruncDay
 from datetime import datetime, timedelta ,date
 import csv
-
+import requests
+from django.db import connection
 
 
 # Set up logging for error tracking and debugging.
@@ -937,7 +938,113 @@ def realizar_consulta(request):
 
 def KPIhome(request):
     return render(request, 'homekpi.html')
+
+
+STATIC_DATABASE_SCHEMA = """
+    Tabla: myapp_persona
+      - nombre (CharField)
+      - apellidos (CharField)
+      - sexo (CharField)
+      - fnac (DateField)
+      - telefono (CharField)
+      - rol (CharField)
+      - especialidad (CharField)
+
+    Tabla: myapp_test
+      - nombre (CharField)
+      - fecha (DateField)
+      - fecha_entrega (DateField)
+      - estado (CharField)
+      - observaciones (TextField)
+      - calificacion (IntegerField)
+      - categoria (ForeignKey)
+      - cliente (ForeignKey)
+      - personal (ForeignKey)
+      """
+      
+def get_ia_response(text):
+    api_key = '#'  # Reemplaza con tu API key de OpenAI
+    url = 'https://api.openai.com/v1/chat/completions'
+    prompt_message = f"""
+    Aquí está el esquema de la base de datos:
+
+    {STATIC_DATABASE_SCHEMA}
     
+    El usuario ha solicitado lo siguiente :
+    {text} , solo dame la consulta , solo la consulta niun texto mas , directo la consulta nada mas , ni un texto de mas solo la consulta , como : "SELECT * FROM tabla"
+    """
+    # Datos del cuerpo de la solicitud
+    #prompt_message = f"Analiza el siguiente texto y genera una consulta SQL: {text}"  # Modificamos el prompt para generar SQL
+    
+    request_body = {
+        "model": "gpt-3.5-turbo",  # Usa el modelo adecuado de OpenAI
+        "messages": [
+            {"role": "system", "content": "Eres un asistente útil que puede generar consultas SQL."},
+            {"role": "user", "content": prompt_message}
+        ]
+    }
+    
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'application/json'
+    }
+
+    try:
+        # Realizar la solicitud POST a la API de OpenAI
+        response = requests.post(url, json=request_body, headers=headers)
+        
+        # Si la solicitud es exitosa, obtener la respuesta en formato JSON
+        response.raise_for_status()  # Lanza un error si la respuesta no es 2xx
+        chat_response = response.json()
+        
+        # Obtener la consulta SQL generada por la IA
+        sql_query = chat_response['choices'][0]['message']['content'].strip()
+        
+        sql_query_without_backticks = sql_query.replace("`", "")
+        print(sql_query_without_backticks)
+        
+        return sql_query_without_backticks
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consultar la API de ChatGPT: {e}")
+        return "Hubo un error al procesar la solicitud."
+    
+    
+def execute_sql_query(query):
+    try:
+        # Ejecutar la consulta SQL generada por la IA
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            result = cursor.fetchall()  # Obtener los resultados de la consulta
+        return result
+    except Exception as e:
+        print(f"Error al ejecutar la consulta SQL: {e}")
+        return None
+
+
+def analitics(request):
+    result = []
+    chart_data = {}
+    if request.method == 'POST':
+        input_text = request.POST.get('input_text')
+        
+        if input_text:
+            # Paso 1: Obtener la consulta SQL generada por la IA
+            sql_query = get_ia_response(input_text)  # Asume que esta función ya está implementada
+            
+            # Paso 2: Ejecutar la consulta SQL
+            query_result = execute_sql_query(sql_query)
+            
+            if query_result:
+                result = query_result  # Pasam
+
+
+    context = {
+        'result': result,
+        'chart_data': chart_data,
+    }
+    return render(request, 'analitics.html', context)
+
 
 # this handles the verification of email through a code sent to the user.
 def verify_email(request):

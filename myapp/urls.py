@@ -28,6 +28,8 @@ urlpatterns = [
     
     path('cargardatos/', views.cargar, name='cargar'),
     
+    path('analitics/', views.analitics, name='analitics'),
+    
     path('cargar test/', views.cargar_tests, name='cargar_tests'),
     
     
