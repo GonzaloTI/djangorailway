@@ -43,9 +43,21 @@ import csv
 import requests
 from django.db import connection
 
+import os  # Asegúrate de importar el módulo os
+from dotenv import load_dotenv
+
+
+
 
 # Set up logging for error tracking and debugging.
 logger = logging.getLogger(__name__)
+# Cargar las variables de entorno desde el archivo .env
+
+
+
+#load_dotenv()
+
+
 
 # Views for the application
 
@@ -961,12 +973,6 @@ STATIC_DATABASE_SCHEMA = """
       - cliente (ForeignKey)
       - personal (ForeignKey)
       """
-
-import os  # Asegúrate de importar el módulo os
-from dotenv import load_dotenv
-
-# Cargar las variables de entorno desde el archivo .env
-load_dotenv()
 
 def get_ia_response(text):
     api_key = os.getenv('OPENAI_API_KEY')   # Reemplaza con tu API key de OpenAI
