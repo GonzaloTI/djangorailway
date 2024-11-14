@@ -961,9 +961,15 @@ STATIC_DATABASE_SCHEMA = """
       - cliente (ForeignKey)
       - personal (ForeignKey)
       """
-      
+
+import os  # Asegúrate de importar el módulo os
+from dotenv import load_dotenv
+
+# Cargar las variables de entorno desde el archivo .env
+load_dotenv()
+
 def get_ia_response(text):
-    api_key = '#'  # Reemplaza con tu API key de OpenAI
+    api_key = os.getenv('OPENAI_API_KEY')   # Reemplaza con tu API key de OpenAI
     url = 'https://api.openai.com/v1/chat/completions'
     prompt_message = f"""
     Aquí está el esquema de la base de datos:
