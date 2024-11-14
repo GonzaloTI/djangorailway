@@ -970,6 +970,7 @@ load_dotenv()
 
 def get_ia_response(text):
     api_key = os.getenv('OPENAI_API_KEY')   # Reemplaza con tu API key de OpenAI
+    print(api_key) 
     url = 'https://api.openai.com/v1/chat/completions'
     prompt_message = f"""
     Aquí está el esquema de la base de datos:
